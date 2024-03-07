@@ -8,10 +8,10 @@ data class Aluguel(
     val periodo: Periodo
     ) {
 
-    val valorAluguel = jogo.preco * periodo.emDias
-    val formatado: DecimalFormat = DecimalFormat("#,###.00")
+    val valorAluguel = game.plano.obterValor(this)
+    val formatado: DecimalFormat = DecimalFormat("#,###.0")
 
     override fun toString(): String {
-        return "Aluguel(=$game, jogo = $jogo, valor = ${formatado.format(valorAluguel)})"
+        return "Aluguel(=$game, jogo = $jogo, valor R$ ${formatado.format(valorAluguel)})"
     }
 }
