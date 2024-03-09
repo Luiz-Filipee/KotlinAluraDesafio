@@ -1,32 +1,21 @@
 package br.com.alura.alugames.principal
 
+import br.com.alura.alugames.dados.Banco
+import br.com.alura.alugames.dados.GamersDAO
+import br.com.alura.alugames.dados.PlanosDAO
 import br.com.alura.alugames.model.Gamer
 
-fun main(){
-    val gamer1 = Gamer("luizfilipe","luizkato8@gmail.com")
-    println(gamer1)
+fun main() {
+    val gamer = Gamer("Monica", "monica@email.com", "15/03/1995", "moni")
 
-    val gamer2 = Gamer("raiany","raiany@gmail.com",
-        "09/11/2003","raianyrocha")
-    println(gamer2)
+    val manager = Banco.getEntityManager()
+    val gamerDAO = GamersDAO(manager)
 
-    gamer1.let {
-        it.dataNascimento = "18/09/2000"
-        it.usuario = "LuizFilipe"
-    }.also {
-        println(gamer1.idInterno)
-    }
 
-    println(gamer1)
-    gamer1.usuario = "jacque"
-    println(gamer1)
+    val listaGamersBanco = gamerDAO.getLista()
+    println(listaGamersBanco)
 
-    gamer2.usuario = "meuamor"
-    gamer2.let {
-        it.dataNascimento = "11/05/2004"
-    }.also {
-        println(gamer2)
-    }
+    manager.close()
 }
 
 

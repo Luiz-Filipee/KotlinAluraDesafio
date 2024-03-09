@@ -2,31 +2,28 @@ package br.com.alura.alugames.dados
 
 import javax.persistence.EntityManager
 
-abstract class DAO<TModel, TEntity>(protected val manager: EntityManager, protected val entityType: Class<TEntity>) {
+abstract class DAO <TModel, TEntity>(protected val manager: EntityManager,
+                                     protected val entityType: Class<TEntity>) {
 
     abstract fun toEntity(objeto: TModel): TEntity
-
     abstract fun toModel(entity: TEntity): TModel
 
     open fun getLista(): List<TModel> {
         val query = manager.createQuery("FROM ${entityType.simpleName}", entityType)
-        return query.resultList.map { entity ->
-            toModel(entity)
-        }
-
+        return query.resultList.map { entity -> toModel(entity) }
     }
 
     open fun adicionar(objeto: TModel) {
         val entity = toEntity(objeto)
-        manager.transaction.begin() // Iniciando a transação
-        manager.persist(entity) // Persistindo a info "Entity" para o banco
-        manager.transaction.commit() // Mandando a info pro banco
+        manager.transaction.begin()
+        manager.persist(entity)
+        manager.transaction.commit()
     }
-
-    open fun recuperaPorId(id: Int): TModel{
+    open fun recuperarPeloId(id: Int): TModel {
         val query = manager.createQuery("FROM ${entityType.simpleName} WHERE id=:id", entityType)
         query.setParameter("id", id)
         val entity = query.singleResult
+
         return toModel(entity)
     }
 
@@ -35,9 +32,8 @@ abstract class DAO<TModel, TEntity>(protected val manager: EntityManager, protec
         query.setParameter("id", id)
         val entity = query.singleResult
 
-        manager.transaction.begin() // Iniciando a transação
-        manager.remove(entity) // Persistindo a info "Entity" para o banco
-        manager.transaction.commit() // Mandando a info pro banco
+        manager.transaction.begin()
+        manager.remove(entity)
+        manager.transaction.commit()
     }
-
 }

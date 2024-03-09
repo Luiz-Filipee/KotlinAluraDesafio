@@ -1,3 +1,5 @@
+package br.com.alura.alugames.dados
+
 import javax.persistence.*
 
 @Entity
@@ -7,22 +9,17 @@ import javax.persistence.*
 sealed class PlanoEntity(
     val tipo: String,
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int = 0
-)
+    var id: Int = 0)
 
 @Entity
 @DiscriminatorValue("Avulso")
-class PlanoAvulsoEntity(
-    tipo: String = "Plano Avulso",
-    id: Int = 0
-) : PlanoEntity(tipo, id)
+class PlanoAvulsoEntity(tipo: String = "Plano Avulso", id: Int = 0): PlanoEntity(tipo, id)
 
 @Entity
 @DiscriminatorValue("Assinatura")
 class PlanoAssinaturaEntity(
-    tipo: String = "PlanoAssinatura",
+    tipo: String = "Plano Assinatura",
     val mensalidade: Double = 0.0,
     val jogosIncluidos: Int = 0,
-    val percentualDescontoReputacao: Double,
-    id: Int = 0
-) : PlanoEntity(tipo, id)
+    val percentualDescontoReputacao: Double = 0.0,
+    id: Int = 0): PlanoEntity(tipo, id)
